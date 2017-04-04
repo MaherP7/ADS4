@@ -1,0 +1,13 @@
+public enum Sym {
+
+    BEGINDDOC,
+    ENDDOC,
+    MOT,
+    LINEBREAK,
+    BOLD,
+    ITALIC,
+    LBRACKET,
+    RBRACKET,
+    EOF;
+    
+}
