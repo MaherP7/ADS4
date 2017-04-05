@@ -5,8 +5,11 @@
 %type Token
 %line
 %column
+%standalone
 %yylexthrow Exception
-
+%init{
+	yybegin(YYINITIAL);
+%init}
 
 mot = "^[a-zA-Z0-9]*$"
 linebreak = "\r" | "\n" | "\r\n"
@@ -17,16 +20,16 @@ endenum = "</ol>"
 blank = [ \t]
 
 %%
-
-{begindoc}	{return new ValuedToken(Sym.BEGINDOC, yytext());}
-{enddoc}	{return new ValuedToken(Sym.ENDDOC, yytext());}
+<YYINITIAL>
+"\begindoc"	{return new ValuedToken(Sym.BEGINDOC, yytext());}
+"\enddoc"	{return new ValuedToken(Sym.ENDDOC, yytext());}
 {mot}		{return new ValuedToken(Sym.MOT, yytext());}
 {linebreak}	{return new ValuedToken(Sym.LINEBREAK, yytext());}
-\bf		{return new Token(Sym.BOLD);}
-\it		{return new Token(Sym.ITALIC);}
-{beginenum}	{return new ValuedToken(Sym.BEGINENUM, yytext());}
-{endenum}	{return new ValuedToken(Sym.ENDENUM, yytext());}
-\item		{return new Token(Sym.ITEM);}
+"\bf"		{return new Token(Sym.BOLD);}
+"\it"		{return new Token(Sym.ITALIC);}
+"\beginenum"	{return new ValuedToken(Sym.BEGINENUM, yytext());}
+"\endenum"	{return new ValuedToken(Sym.ENDENUM, yytext());}
+"\item"		{return new Token(Sym.ITEM);}
 "{"		{return new Token(Sym.LBRACKET);}
 "}"		{return new Token(Sym.RBRACKET);}
 {blank}		{}

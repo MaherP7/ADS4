@@ -6,14 +6,17 @@ class LookAhead1  {
     private Token current;
     private Lexer lexer;
 
-    public LookAhead1(Lexer l) 
-	throws Exception {
-	lexer=l;
-	current=lexer.yylex();
+    public LookAhead1(Lexer l)throws Exception {
+         try {
+    	   lexer= l;
+    	   current= lexer.yylex();
+        }
+        catch(Exception e){
+            System.out.println(e);
+        }
     }
 
-    public boolean check(Sym s)
-	throws Exception {
+    public boolean check(Sym s)throws Exception {
 	/* check whether the first character is of type s*/
           return (current.symbol() == s); 
     }
@@ -21,12 +24,11 @@ class LookAhead1  {
     public void eat(Sym s) throws Exception {
 	/* consumes a token of type s from the stream,
 	   exception when the contents does not start on s.   */
-	if (!check(s)) {
-	    throw new Exception("\nCan't eat "+s+" current being "+current);
-	}
+    	if (!check(s)) {
+            throw new Exception("\nCan't eat "+s+" current being "+current);
+    	}
 		//for debug
 		System.out.println(current);
-		
         current=lexer.yylex();
    }
     
